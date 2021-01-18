@@ -54,6 +54,26 @@ namespace OTB.InterviewChallenge.Tests
             }
         }
 
+        [Test]
+        public void GetSortedJobs__StringArrayArgumentsMultipleJobsDependencyOnItself_ReturnsPassedValidationResult()
+        {
+            try
+            {
+                string sortedJobs = "";
+                var input = new[] { "a=>", "b=>", "c=>c" };
+
+                JobFactory myFactory = new JobFactory(input);
+                sortedJobs = myFactory.GetSortedJobs();
+
+            }
+            catch (Exception ex)
+            {
+                var expected = "jobs can’t depend on themselves";
+                Assert.That(ex.Message, Is.EqualTo(expected));
+            }
+
+        }
+
         [TearDown]
         public void TearDown()
         {
