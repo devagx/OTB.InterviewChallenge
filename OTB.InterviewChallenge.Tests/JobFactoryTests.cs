@@ -21,7 +21,11 @@ namespace OTB.InterviewChallenge.Tests
         {
             try
             {
-                string expected = "INVALID STRING";
+                string sortedJobs = "";
+                var input = new string[] { };
+
+                JobFactory myFactory = new JobFactory(input);
+                sortedJobs = myFactory.GetSortedJobs();
 
             }
             catch (Exception ex)
@@ -37,7 +41,11 @@ namespace OTB.InterviewChallenge.Tests
             try
             {
 
-                string expected = "INVALID STRING";
+                string sortedJobs = "";
+                var input = new string[] { "a=>", "b&>c" };
+
+                JobFactory myFactory = new JobFactory(input);
+                sortedJobs = myFactory.GetSortedJobs();
             }
             catch (Exception ex)
             {
