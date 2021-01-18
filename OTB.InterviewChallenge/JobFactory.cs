@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 
 namespace OTB.InterviewChallenge
 { 
@@ -77,10 +78,51 @@ namespace OTB.InterviewChallenge
             try
             {
                 string sortedJobs = "";
+                var sorted = new List<Job>();
+                var checkedList = new List<Job>();
 
-                sortedJobs = "abcxx";
+                foreach (var item in _jobs)
+                    RecursCheckJobList(item, sorted, checkedList, _jobs);
+
+                foreach (var job in sorted)
+                {
+                    sortedJobs += job.Name;
+                }
 
                 return sortedJobs;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error in '{_PROC_NAME}': {ex.Message}");
+                throw ex;
+            }
+            finally
+            {
+
+            }
+        }
+        private void RecursCheckJobList(Job job, List<Job> sorted, List<Job> checkedList, List<Job> unsorted)
+        {
+            const string _PROC_NAME = "RecursCheckJobList";
+
+            try
+            {
+                if (checkedList.Any(x => x.Name.Equals(job.Name)))
+                {
+                    if (!sorted.Any(x => x.Name.Equals(job.Name)))
+                    {
+                        throw new Exception("jobs can’t have circular dependencies");
+                    }
+                    return;
+                }
+                checkedList.Add(job);
+                if (!string.IsNullOrWhiteSpace(job.Dependency))
+                {
+                    var dependencyJob = unsorted.Where(x => x.Name == job.Dependency).FirstOrDefault();
+                    if (dependencyJob != null)
+                        RecursCheckJobList(dependencyJob, sorted, checkedList, unsorted);
+                }
+                sorted.Add(job);
             }
             catch (Exception ex)
             {
