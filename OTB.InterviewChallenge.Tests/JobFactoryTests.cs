@@ -71,6 +71,73 @@ namespace OTB.InterviewChallenge.Tests
                 var expected = "jobs can’t depend on themselves";
                 Assert.That(ex.Message, Is.EqualTo(expected));
             }
+        }
+        [Test]
+        public void GetSortedJobs__StringArrayArgumentsSingleJobNoDependency_ReturnsPassedValidationResult()
+        {
+            string sortedJobs = "";
+            var input = new[] { "a=>" };
+
+            JobFactory myFactory = new JobFactory(input);
+            sortedJobs = myFactory.GetSortedJobs();
+
+            var expected = "a";
+            Assert.AreEqual(expected, sortedJobs, $"Incorrect output returned. Output should be: {expected}");
+        }
+        [Test]
+        public void GetSortedJobs__StringArrayArgumentsMultipleJobsWithNoDependency_ReturnsPassedValidationResult()
+        {
+            string sortedJobs = "";
+            var input = new[] { "a=>", "b=>", "c=>" };
+
+            JobFactory myFactory = new JobFactory(input);
+            sortedJobs = myFactory.GetSortedJobs();
+
+            var expected = "abc";
+            Assert.AreEqual(expected, sortedJobs, $"Incorrect output returned. Output should be: {expected}");
+        }
+        [Test]
+        public void GetSortedJobs__StringArrayArgumentsMultipleJobsWithDependency_ReturnsPassedValidationResult()
+        {
+            string sortedJobs = "";
+            var input = new[] { "a=>", "b=>c", "c=>" };
+
+            JobFactory myFactory = new JobFactory(input);
+            sortedJobs = myFactory.GetSortedJobs();
+
+            var expected = "acb";
+            Assert.AreEqual(expected, sortedJobs, $"Incorrect output returned. Output should be: {expected}");
+        }
+        [Test]
+        public void GetSortedJobs__StringArrayArgumentsMultipleJobsWithMultipleDependency_ReturnsPassedValidationResult()
+        {
+            string sortedJobs = "";
+            var input = new[] { "a=>", "b=>c", "c=>f", "d=>a", "e=>b", "f=>" };
+
+            JobFactory myFactory = new JobFactory(input);
+            sortedJobs = myFactory.GetSortedJobs();
+
+            var expected = "afcbde";
+            Assert.AreEqual(expected, sortedJobs, $"Incorrect output returned. Output should be: {expected}");
+        }
+
+        [Test]
+        public void GetSortedJobs__StringArrayArgumentsMultipleJobsCircularDependency_ReturnsPassedValidationResult()
+        {
+            try
+            {
+                string sortedJobs = "";
+                var input = new[] { "a=>", "b=>c", "c=>f", "d=>a", "e=>", "f=>b" };
+
+                JobFactory myFactory = new JobFactory(input);
+                sortedJobs = myFactory.GetSortedJobs();
+
+            }
+            catch (Exception ex)
+            {
+                var expected = "jobs can’t have circular dependencies";
+                Assert.That(ex.Message, Is.EqualTo(expected));
+            }
 
         }
 
