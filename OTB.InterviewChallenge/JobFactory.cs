@@ -78,7 +78,7 @@ namespace OTB.InterviewChallenge
             {
                 string sortedJobs = "";
 
-                sortedJobs = "abc";
+                sortedJobs = "abcxx";
 
                 return sortedJobs;
             }
