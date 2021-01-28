@@ -5,7 +5,7 @@ using NUnit.Framework;
 using OTB.InterviewChallenge;
 using System;
 
-//Test Comment
+//Test Comments
 
 namespace OTB.InterviewChallenge.Tests
 {
