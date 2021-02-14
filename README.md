@@ -1,4 +1,4 @@
-# OTB.InterviewChallenge
+# otb-challenge
 
 Intro
 The purpose of this exercise is to see how you approach a problem, and how you solve it.
